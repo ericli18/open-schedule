@@ -41,16 +41,8 @@ const formSchema = z.object({
     .date()
     .refine((date) => !isNaN(date.getTime()), {
       message: "Invalid end date format.",
-    })
-    .refine(
-      (endDate, data) => {
-        const startDate = data.startDate;
-        return !startDate || endDate >= startDate;
-      },
-      {
-        message: "End date must be greater than or equal to the start date.",
-      }
-    ),
+    }),
+    
 
   endTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, {
     message: "Invalid end time format. Use HH:mm (24-hour format).",
@@ -62,7 +54,16 @@ const formSchema = z.object({
     .min(1, { message: "Headcount must be at least 1." }),
 
   repeat: z.enum(["none", "daily", "weekly", "monthly", "custom"]),
-});
+})
+.refine(
+  (data) => {
+    const startDate = data.startDate;
+    return !startDate || data.endDate >= startDate;
+  },
+  {
+    message: "End date must be greater than or equal to the start date.",
+  }
+);
 
 export default function ShiftForm() {
   const form = useForm({
@@ -100,6 +101,7 @@ export default function ShiftForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name='startDate'
@@ -128,6 +130,7 @@ export default function ShiftForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name='endDate'
@@ -156,6 +159,7 @@ export default function ShiftForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name='headcount'
