@@ -95,7 +95,7 @@ export default function ShiftForm() {
                 <Input placeholder='shift 1' {...field} />
               </FormControl>
               <FormDescription>
-                The title of the shift, e.g. "Shift 1"
+                The title of the shift
               </FormDescription>
               <FormMessage />
             </FormItem>
