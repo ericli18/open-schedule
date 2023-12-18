@@ -23,6 +23,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { createShift } from "@/lib/actions";
+import { useState } from "react";
+
 const formSchema = z.object({
   title: z
     .string()
@@ -66,6 +69,7 @@ const formSchema = z.object({
 );
 
 export default function ShiftForm() {
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,13 +82,15 @@ export default function ShiftForm() {
       repeat: "none",
     },
   });
+  
   function onSubmit(values) {
-    console.log(values);
+    createShift(values);
   }
+
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 max-w-xl grow'>
         <FormField
           control={form.control}
           name='title'

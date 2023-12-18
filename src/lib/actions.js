@@ -1,14 +1,22 @@
 'use server'
 import { sql } from '@vercel/postgres'
+import dayjs from 'dayjs'
 
 export async function createShift(formData) {
   try {
-    const shifts = await sql`
-      INSERT INTO shifts (employee_id, start_time, end_time)
-      VALUES (${formData.employee_id}, ${formData.start_time}, ${formData.end_time})
+    const rawFormData = {
+      title: formData.title,
+    }
+    const startDatetime = dayjs(formData.startDate).format('YYYY-MM-DD') + 'T' + formData.startTime
+    const endDatetime = dayjs(formData.endDate).format('YYYY-MM-DD') + 'T' + formData.endTime
+    const query = sql`
+      INSERT INTO shifts
+      (title, start_timedate, end_timedate)
+      VALUES
+      (${rawFormData.title}, ${startDatetime}, ${endDatetime})
       RETURNING *
     `
-    return shifts.rows
+    return query
   }
   catch (error) {
     console.error('Error creating shift', error)
