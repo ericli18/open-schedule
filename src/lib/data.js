@@ -1,6 +1,8 @@
 import { sql } from '@vercel/postgres'
+import { unstable_noStore } from 'next/cache'
 
 export async function getEmployees() {
+  unstable_noStore()
   try {
     const employees = await sql`
       SELECT * FROM employees
