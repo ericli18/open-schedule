@@ -22,13 +22,6 @@ export default function Page({ shifts, employees }) {
   }, [])
 
   const onSelectEvent = useCallback((calEvent) => {
-    /**
-     * Here we are waiting 250 milliseconds (use what you want) prior to firing
-     * our method. Why? Because both 'click' and 'doubleClick'
-     * would fire, in the event of a 'doubleClick'. By doing
-     * this, the 'click' handler is overridden by the 'doubleClick'
-     * action.
-     */
     window.clearTimeout(clickRef?.current)
     clickRef.current = window.setTimeout(() => {
       window.alert(JSON.stringify(calEvent, null, 4))

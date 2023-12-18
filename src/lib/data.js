@@ -14,3 +14,18 @@ export async function getEmployees() {
     throw error;
   }
 }
+
+//might not be needed since in a server component
+export async function getShifts() {
+  unstable_noStore()
+  try {
+    const shifts = await sql`
+      SELECT * FROM shifts
+    `
+    return shifts.rows
+  }
+  catch (error) {
+    console.error('Error getting shifts', error)
+    throw error;
+  }
+}

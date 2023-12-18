@@ -48,7 +48,7 @@ const formSchema = z.object({
     message: "Invalid end time format. Use HH:mm (24-hour format).",
   }),
 
-  headcount: z
+  headcount: z.coerce
     .number()
     .int()
     .min(1, { message: "Headcount must be at least 1." }),
@@ -102,63 +102,67 @@ export default function ShiftForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name='startDate'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Date</FormLabel>
-              <FormControl>
-                <Input type='date' {...field} />
-              </FormControl>
-              <FormDescription>The date the shift starts.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='startTime'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Time</FormLabel>
-              <FormControl>
-                <Input type='time' {...field} />
-              </FormControl>
-              <FormDescription>The time the shift starts.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-8">
+          <FormField
+            control={form.control}
+            name='startDate'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Start Date</FormLabel>
+                <FormControl>
+                  <Input type='date' {...field} />
+                </FormControl>
+                <FormDescription>The date the shift starts.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='startTime'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Start Time</FormLabel>
+                <FormControl>
+                  <Input type='time' {...field} />
+                </FormControl>
+                <FormDescription>The time the shift starts.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <FormField
-          control={form.control}
-          name='endDate'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Date</FormLabel>
-              <FormControl>
-                <Input type='date' {...field} />
-              </FormControl>
-              <FormDescription>The date the shift ends.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='endTime'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Time</FormLabel>
-              <FormControl>
-                <Input type='time' {...field} />
-              </FormControl>
-              <FormDescription>The time the shift ends.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-8">
+          <FormField
+            control={form.control}
+            name='endDate'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>End Date</FormLabel>
+                <FormControl>
+                  <Input type='date' {...field} />
+                </FormControl>
+                <FormDescription>The date the shift ends.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='endTime'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>End Time</FormLabel>
+                <FormControl>
+                  <Input type='time' {...field} />
+                </FormControl>
+                <FormDescription>The time the shift ends.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
