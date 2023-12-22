@@ -26,50 +26,47 @@ import {
 import { createShift } from "@/lib/actions";
 import { useState } from "react";
 
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(2, { message: "Title must be at least 2 characters long." })
-    .max(100, { message: "Title cannot exceed 100 characters." }),
+const formSchema = z
+  .object({
+    title: z
+      .string()
+      .min(2, { message: "Title must be at least 2 characters long." })
+      .max(100, { message: "Title cannot exceed 100 characters." }),
 
-  startDate: z.coerce.date().refine((date) => !isNaN(date.getTime()), {
-    message: "Invalid start date format.",
-  }),
+    startDate: z.coerce.date().refine((date) => !isNaN(date.getTime()), {
+      message: "Invalid start date format.",
+    }),
 
-  startTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: "Invalid start time format. Use HH:mm (24-hour format).",
-  }),
+    startTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, {
+      message: "Invalid start time format. Use HH:mm (24-hour format).",
+    }),
 
-  endDate: z.coerce
-    .date()
-    .refine((date) => !isNaN(date.getTime()), {
+    endDate: z.coerce.date().refine((date) => !isNaN(date.getTime()), {
       message: "Invalid end date format.",
     }),
-    
 
-  endTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, {
-    message: "Invalid end time format. Use HH:mm (24-hour format).",
-  }),
+    endTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, {
+      message: "Invalid end time format. Use HH:mm (24-hour format).",
+    }),
 
-  headcount: z.coerce
-    .number()
-    .int()
-    .min(1, { message: "Headcount must be at least 1." }),
+    headcount: z.coerce
+      .number()
+      .int()
+      .min(1, { message: "Headcount must be at least 1." }),
 
-  repeat: z.enum(["none", "daily", "weekly", "monthly", "custom"]),
-})
-.refine(
-  (data) => {
-    const startDate = data.startDate;
-    return !startDate || data.endDate >= startDate;
-  },
-  {
-    message: "End date must be greater than or equal to the start date.",
-  }
-);
+    repeat: z.enum(["none", "daily", "weekly", "monthly", "custom"]),
+  })
+  .refine(
+    (data) => {
+      const startDate = data.startDate;
+      return !startDate || data.endDate >= startDate;
+    },
+    {
+      message: "End date must be greater than or equal to the start date.",
+    }
+  );
 
 export default function ShiftForm() {
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -82,15 +79,20 @@ export default function ShiftForm() {
       repeat: "none",
     },
   });
-  
+
+  const showCustomRepeat = form.watch("repeat") === "custom";
+
   function onSubmit(values) {
     createShift(values);
   }
 
-
+  // TODO: Add a way to add custom repeat intervals
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 max-w-xl grow'>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='space-y-8 max-w-xl grow'
+      >
         <FormField
           control={form.control}
           name='title'
@@ -100,15 +102,13 @@ export default function ShiftForm() {
               <FormControl>
                 <Input placeholder='shift 1' {...field} />
               </FormControl>
-              <FormDescription>
-                The title of the shift
-              </FormDescription>
+              <FormDescription>The title of the shift</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="flex gap-8">
+        <div className='flex gap-8'>
           <FormField
             control={form.control}
             name='startDate'
@@ -139,7 +139,7 @@ export default function ShiftForm() {
           />
         </div>
 
-        <div className="flex gap-8">
+        <div className='flex gap-8'>
           <FormField
             control={form.control}
             name='endDate'
@@ -198,7 +198,6 @@ export default function ShiftForm() {
                     <SelectValue placeholder='How often this event repeats' />
                   </SelectTrigger>
                 </FormControl>
-
                 <SelectContent>
                   <SelectItem value='none'>None</SelectItem>
                   <SelectItem value='daily'>Daily</SelectItem>
@@ -212,6 +211,42 @@ export default function ShiftForm() {
             </FormItem>
           )}
         />
+        {/* {showCustomRepeat && (
+          <>
+            <FormField
+              control={form.control}
+              name='repeatAmount'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Custom Repeat</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The custom repeat interval for this shift.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='repeatInterval'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Custom Repeat</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    The custom repeat interval for this shift.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </>
+        )} */}
         <Button type='submit'>Submit</Button>
       </form>
     </Form>
