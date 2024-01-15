@@ -1,5 +1,9 @@
 declare namespace Lucia {
 	type Auth = import("./auth/lucia").Auth;
-	type DatabaseUserAttributes = {};
+	type DatabaseUserAttributes = {
+		username: string;
+		email: string;
+		email_verified: boolean;
+	};
 	type DatabaseSessionAttributes = {};
 }

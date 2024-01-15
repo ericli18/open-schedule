@@ -1,37 +1,34 @@
 import { auth } from "@/../auth/lucia";
-import * as context from "next/headers";
 import { NextResponse } from "next/server";
 import { LuciaError } from "lucia";
+import * as context from "next/headers";
 
 import type { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
+	const authRequest = auth.handleRequest("GET", context);
+	const session = await authRequest.validate();
+  if (!session) {
+		return new Response(null, {
+			status: 401
+		});
+	}
+  const userId = session.user.userId;
+
+  const isValidEmail = (maybeEmail: unknown): maybeEmail is string => {
+    if (typeof maybeEmail !== "string") return false;
+    if (maybeEmail.length > 255) return false;
+    const emailRegexp = /^.+@.+$/; // [one or more character]@[one or more character]
+    return emailRegexp.test(maybeEmail);
+  };
+
   const formData = await request.formData();
-  const username = formData.get("username");
-  const password = formData.get("password");
+  const email = formData.get("email");
   // basic check
-  if (
-    typeof username !== "string" ||
-    username.length < 4 ||
-    username.length > 31
-  ) {
+  if (!isValidEmail(email)) {
     return NextResponse.json(
       {
-        error: "Invalid username",
-      },
-      {
-        status: 400,
-      }
-    );
-  }
-  if (
-    typeof password !== "string" ||
-    password.length < 3 ||
-    password.length > 255
-  ) {
-    return NextResponse.json(
-      {
-        error: "Invalid password",
+        error: "Invalid email",
       },
       {
         status: 400,
@@ -39,24 +36,21 @@ export const POST = async (request: NextRequest) => {
     );
   }
   try {
-    const user = await auth.createUser({
-      key: {
-        providerId: "username", // auth method
-        providerUserId: username.toLowerCase(), // unique id when using "username" auth method
-        password, // hashed by Lucia
-      },
-      attributes: {
-        username,
-        email: "",
-        email_verified: false,
-      },
+
+    //TODO: Add error handling for duplicate keys
+    //? Should I just delete before?
+    await auth.createKey({
+      userId: userId, 
+      providerId: "email",
+      providerUserId: email.toLowerCase(),
+      password: null
     });
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-    const authRequest = auth.handleRequest(request.method, context);
-    authRequest.setSession(session);
+    await auth.updateUserAttributes(
+      userId,
+      {
+        email: email.toLowerCase(),
+      }
+    );
     return new Response(null, {
       status: 302,
       headers: {
@@ -72,7 +66,7 @@ export const POST = async (request: NextRequest) => {
     ) {
       return NextResponse.json(
         {
-          error: "Username already taken",
+          error: "Unknown error occurred",
         },
         {
           status: 400,

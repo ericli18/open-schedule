@@ -8,11 +8,18 @@ const Page = async () => {
 	const authRequest = auth.handleRequest("GET", context);
 	const session = await authRequest.validate();
 	if (!session) redirect("/login");
+	if (!session.user.email_verified) redirect("/verify");
 	return (
 		<>
 			<h1>Profile</h1>
 			<p>User id: {session.user.userId}</p>
 			<p>Username: {session.user.username}</p>
+			<Form action="/api/email">
+				<label htmlFor="email">Email</label>
+				<input name="email" id="email" />
+				<br />
+				<input type="submit" />
+			</Form>
 			<Form action="/api/logout">
 				<input type="submit" value="Sign out" />
 			</Form>
