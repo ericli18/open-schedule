@@ -11,7 +11,7 @@ const Page = async () => {
 	if (session) redirect("/");
 
 	return (
-		<>
+		<div className="flex flex-col justify-center items-center">
 			<h1>Sign in</h1>
 			<Form action="/api/login">
 				<label htmlFor="username">Username</label>
@@ -23,7 +23,7 @@ const Page = async () => {
 				<input type="submit" />
 			</Form>
 			<Link href="/signup">Create an account</Link>
-		</>
+		</div>
 	);
 };
 

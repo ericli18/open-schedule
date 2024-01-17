@@ -9,7 +9,6 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function Page() {
-  
   return (
     <div className='flex gap-8 p-4 justify-center min-w-full'>
       <ShiftForm />
