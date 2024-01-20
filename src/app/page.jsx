@@ -8,7 +8,6 @@ const Page = async () => {
 	const authRequest = auth.handleRequest("GET", context);
 	const session = await authRequest.validate();
 	if (!session) redirect("/login");
-	if (!session.user.email_verified) redirect("/verify");
 	return (
 		<>
 			<h1>Profile</h1>
