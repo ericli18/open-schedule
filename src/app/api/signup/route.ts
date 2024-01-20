@@ -49,19 +49,20 @@ export const POST = async (request: NextRequest) => {
         username,
         email: "",
         email_verified: false,
+        level: 0,
       },
     });
-    const session = await auth.createSession({
-      userId: user.userId,
-      attributes: {},
-    });
-    const authRequest = auth.handleRequest(request.method, context);
-    authRequest.setSession(session);
+    // const session = await auth.createSession({
+    //   userId: user.userId,
+    //   attributes: {},
+    // });
+    // const authRequest = auth.handleRequest(request.method, context);
+    // authRequest.setSession(session);
     return new Response(null, {
       status: 302,
-      headers: {
-        Location: "/", // redirect to profile page
-      },
+      // headers: {
+      //   Location: "/", // redirect to profile page
+      // },
     });
   } catch (e) {
     console.log(e)

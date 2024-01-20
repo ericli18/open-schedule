@@ -8,7 +8,7 @@ import Link from "next/link";
 const Page = async () => {
   const authRequest = auth.handleRequest("GET", context);
 	const session = await authRequest.validate();
-	if (session) redirect("/");
+	// if (session) redirect("/");
 
   return (
     <>
