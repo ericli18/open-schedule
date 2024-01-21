@@ -24,6 +24,7 @@ export const auth = lucia({
 			email: data.email,
 			email_verified: data.email_verified,
 			level: data.level,
+			hqsid: data.hqsid,
 		};
 	}
 });

@@ -30,7 +30,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/email-verification/Page.jsx"  ],
+, "src/app/email-verification/Page.jsx", "src/app/clocks/data-table.jsx"  ],
   "exclude": [
     "node_modules"
   ]

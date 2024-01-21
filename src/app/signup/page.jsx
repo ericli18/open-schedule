@@ -7,9 +7,11 @@ import Link from "next/link";
 
 const Page = async () => {
   const authRequest = auth.handleRequest("GET", context);
-	const session = await authRequest.validate();
-	// if (session) redirect("/");
-
+  const session = await authRequest.validate();
+  // if (session) redirect("/");
+  if (session.user.level < 2) {
+    redirect("/");
+  }
   return (
     <>
       <h1>Sign up</h1>
@@ -19,6 +21,9 @@ const Page = async () => {
         <br />
         <label htmlFor='password'>Password</label>
         <input type='password' name='password' id='password' />
+        <br />
+        <label htmlFor='hqsid'>HQSID</label>
+        <input name='hqsid' id='hqsid' />
         <br />
         <input type='submit' />
       </Form>

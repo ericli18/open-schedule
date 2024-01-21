@@ -9,6 +9,7 @@ export const POST = async (request: NextRequest) => {
   const formData = await request.formData();
   const username = formData.get("username");
   const password = formData.get("password");
+  const hqsid = formData.get("hqsid");
   // basic check
   if (
     typeof username !== "string" ||
@@ -38,6 +39,21 @@ export const POST = async (request: NextRequest) => {
       }
     );
   }
+  if (
+    typeof hqsid !== "string" ||
+    hqsid.length < 3 ||
+    hqsid.length > 7 ||
+    !hqsid.startsWith("HQS")
+  ) {
+    return NextResponse.json(
+      {
+        error: "Invalid HQS ID",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
   try {
     const user = await auth.createUser({
       key: {
@@ -50,6 +66,7 @@ export const POST = async (request: NextRequest) => {
         email: "",
         email_verified: false,
         level: 0,
+        hqsid,
       },
     });
     // const session = await auth.createSession({
