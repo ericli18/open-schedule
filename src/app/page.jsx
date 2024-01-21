@@ -8,14 +8,19 @@ const Page = async () => {
 	const authRequest = auth.handleRequest("GET", context);
 	const session = await authRequest.validate();
 	if (!session) redirect("/login");
+	const email = session.user.email;
+	const email_verified = session.user.email_verified;
 	return (
 		<>
 			<h1>Profile</h1>
-			<p>User id: {session.user.userId}</p>
 			<p>Username: {session.user.username}</p>
 			<Form action="/api/email">
 				<label htmlFor="email">Email</label>
-				<input name="email" id="email" />
+				{email_verified ? (
+					<input name="email" id="email" value={email} readOnly />
+				) : (
+					<input name="email" id="email" value={email} />
+				)}
 				<br />
 				<input type="submit" />
 			</Form>
