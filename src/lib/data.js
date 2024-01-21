@@ -29,3 +29,17 @@ export async function getShifts() {
     throw error;
   }
 }
+
+export async function getClocks(hqsID) {
+  unstable_noStore()
+  try {
+    const clocks = await sql`
+      SELECT * FROM clocks WHERE hqs_id = ${hqsID}
+    `
+    return clocks.rows
+  }
+  catch (error) {
+    console.error('Error getting clocks', error)
+    throw error;
+  }
+}
