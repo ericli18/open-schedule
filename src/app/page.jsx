@@ -1,9 +1,29 @@
-import Image from 'next/image'
+import { auth } from "@/../auth/lucia";
+import * as context from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      
-    </main>
-  )
-}
+import Form from "@/components/Form";
+
+const Page = async () => {
+	const authRequest = auth.handleRequest("GET", context);
+	const session = await authRequest.validate();
+	if (!session) redirect("/login");
+	return (
+		<>
+			<h1>Profile</h1>
+			<p>User id: {session.user.userId}</p>
+			<p>Username: {session.user.username}</p>
+			<Form action="/api/email">
+				<label htmlFor="email">Email</label>
+				<input name="email" id="email" />
+				<br />
+				<input type="submit" />
+			</Form>
+			<Form action="/api/logout">
+				<input type="submit" value="Sign out" />
+			</Form>
+		</>
+	);
+};
+
+export default Page;
