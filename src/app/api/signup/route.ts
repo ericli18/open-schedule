@@ -6,7 +6,9 @@ import { LuciaError } from "lucia";
 import type { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
+  console.log(request)
   const formData = await request.formData();
+  // console.log(formData);
   const username = formData.get("username");
   const password = formData.get("password");
   const hqsid = formData.get("hqsid");
@@ -76,7 +78,7 @@ export const POST = async (request: NextRequest) => {
     // const authRequest = auth.handleRequest(request.method, context);
     // authRequest.setSession(session);
     return new Response(null, {
-      status: 302,
+      status: 202,
       // headers: {
       //   Location: "/", // redirect to profile page
       // },

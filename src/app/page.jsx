@@ -17,9 +17,9 @@ const Page = async () => {
 			<Form action="/api/email">
 				<label htmlFor="email">Email</label>
 				{email_verified ? (
-					<input name="email" id="email" value={email} readOnly />
+					<input name="email" id="email" defaultValue={email} readOnly />
 				) : (
-					<input name="email" id="email" value={email} />
+					<input name="email" id="email" defaultValue={email} />
 				)}
 				<br />
 				<input type="submit" />

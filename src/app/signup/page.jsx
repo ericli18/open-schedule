@@ -3,6 +3,7 @@ import * as context from "next/headers";
 import { redirect } from "next/navigation";
 
 import Form from "@/components/Form";
+import SignupForm from "@/components/SignupForm";
 import Link from "next/link";
 
 const Page = async () => {
@@ -14,8 +15,8 @@ const Page = async () => {
   }
   return (
     <>
-      <h1>Sign up</h1>
-      <Form action='/api/signup'>
+      <h1>Create employee</h1>
+      {/* <Form action='/api/signup'>
         <label htmlFor='username'>Username</label>
         <input name='username' id='username' />
         <br />
@@ -26,7 +27,8 @@ const Page = async () => {
         <input name='hqsid' id='hqsid' />
         <br />
         <input type='submit' />
-      </Form>
+      </Form> */}
+      <SignupForm />
       <Link href='/login'>Sign in</Link>
     </>
   );

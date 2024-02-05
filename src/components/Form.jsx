@@ -11,7 +11,9 @@ const Form = ({ children, action }) => {
       method='post'
       onSubmit={async (e) => {
         e.preventDefault();
+        // console.log(e.currentTarget)
         const formData = new FormData(e.currentTarget);
+        // console.log(formData)
         const response = await fetch(action, {
           method: "POST",
           body: formData,
