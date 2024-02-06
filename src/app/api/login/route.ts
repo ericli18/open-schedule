@@ -7,6 +7,7 @@ import type { NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
 	const formData = await request.formData();
+	console.log(formData);
 	const username = formData.get("username");
 	const password = formData.get("password");
 	// basic check
@@ -49,7 +50,7 @@ export const POST = async (request: NextRequest) => {
 		const authRequest = auth.handleRequest(request.method, context);
 		authRequest.setSession(session);
 		return new Response(null, {
-			status: 302,
+			status: 200,
 			headers: {
 				Location: "/" // redirect to profile page
 			}
