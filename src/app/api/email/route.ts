@@ -1,4 +1,4 @@
-import { auth } from "@/../auth/lucia";
+import { auth } from "@/auth/lucia";
 import { NextResponse } from "next/server";
 import { LuciaError } from "lucia";
 import * as context from "next/headers";

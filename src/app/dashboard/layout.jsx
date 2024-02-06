@@ -1,7 +1,7 @@
 
 import Header from "@/components/Header";
 
-import { auth } from "@/../auth/lucia";
+import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 

@@ -1,5 +1,5 @@
-import { auth } from "@/../auth/lucia";
-import { validateEmailVerificationToken } from "@/../auth/token";
+import { auth } from "@/auth/lucia";
+import { validateEmailVerificationToken } from "@/auth/token";
 
 import type { NextRequest } from "next/server";
 

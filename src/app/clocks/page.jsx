@@ -2,7 +2,7 @@ import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { sql } from "@vercel/postgres"
 
-import { auth } from "@/../auth/lucia";
+import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 
