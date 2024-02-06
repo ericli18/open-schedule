@@ -4,7 +4,6 @@ import { auth } from "@/auth/lucia";
 export default async function Page() {
   const rows = await sql`SELECT * FROM auth_user WHERE level < 4`;
   const employees = rows.rows;
-  console.log(employees)
 
   const deleteUser = async (id) =>
   {
@@ -14,8 +13,8 @@ export default async function Page() {
   return (
     <>
       <h1>Hello</h1>
-      {employees.map((employee, i) => {
-        return <div key={i}>{employee.username}</div>;
+      {employees.map((employee) => {
+        return <div key={employee.id}>{employee.username}</div>;
       })}
     </>
   );
