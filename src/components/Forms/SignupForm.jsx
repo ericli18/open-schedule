@@ -32,7 +32,7 @@ const formSchema = z.object({
     .regex(/^HQS\d{4}$/, { message: "Invalid HQS ID format. Use HQS####." }),
 });
 
-export default function SignupForm(action) {
+export default function SignupForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,7 +64,7 @@ export default function SignupForm(action) {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='min-w-[min(20rem,90vw)]'>
         <FormField
           control={form.control}
           name='username'

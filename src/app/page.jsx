@@ -11,7 +11,7 @@ const Page = async () => {
 	const email = session.user.email;
 	const email_verified = session.user.email_verified;
 	return (
-		<>
+		<main>
 			<h1>Profile</h1>
 			<p>Username: {session.user.username}</p>
 			<Form action="/api/email">
@@ -27,7 +27,7 @@ const Page = async () => {
 			<Form action="/api/logout">
 				<input type="submit" value="Sign out" />
 			</Form>
-		</>
+		</main>
 	);
 };
 

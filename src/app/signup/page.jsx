@@ -2,8 +2,7 @@ import { auth } from "@/auth/lucia";
 import * as context from "next/headers";
 import { redirect } from "next/navigation";
 
-import Form from "@/components/Form";
-import SignupForm from "@/components/SignupForm";
+import SignupForm from "@/components/Forms/SignupForm";
 import Link from "next/link";
 
 const Page = async () => {
@@ -14,23 +13,9 @@ const Page = async () => {
     redirect("/");
   }
   return (
-    <>
-      <h1>Create employee</h1>
-      {/* <Form action='/api/signup'>
-        <label htmlFor='username'>Username</label>
-        <input name='username' id='username' />
-        <br />
-        <label htmlFor='password'>Password</label>
-        <input type='password' name='password' id='password' />
-        <br />
-        <label htmlFor='hqsid'>HQSID</label>
-        <input name='hqsid' id='hqsid' />
-        <br />
-        <input type='submit' />
-      </Form> */}
+    <main className="min-h-screen grid place-content-center p-2">
       <SignupForm />
-      <Link href='/login'>Sign in</Link>
-    </>
+    </main>
   );
 };
 
