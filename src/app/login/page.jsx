@@ -10,8 +10,7 @@ const Page = async () => {
 	if (session) redirect("/");
 
 	return (
-		<div className="min-h-screen flex flex-col justify-center items-center">
-			<h1>Sign in</h1>
+		<div className="min-h-screen grid place-content-center">
 			<LoginForm/>
 		</div>
 	);

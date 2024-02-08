@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 //HQS ID: HQS1234, so it is 7 characters long
 const formSchema = z.object({
@@ -32,13 +32,13 @@ const formSchema = z.object({
 
 export default function LoginForm() {
   const router = useRouter();
-  
-  const [showPassword, setShowPassword] = useState(false)
 
-  const togglePasswordVisibility = () =>
-  {
-    setShowPassword(prevShowPassword => !prevShowPassword);
-  }
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -60,19 +60,21 @@ export default function LoginForm() {
     const response = await fetch("/api/login", {
       method: "POST",
       body: data,
-      redirect: "manual"
+      redirect: "manual",
     });
-    console.log(response.ok)
     if (response.ok) {
       router.refresh();
     } else {
       const { error } = await response.json();
-      console.log(error);
+      setLoginError(error);
+      setTimeout(() => {
+        setLoginError("");
+      }, 5000);
     }
   };
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-8">
+    <Form {...form} className="min-w-80">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="min-w-[20rem]">
         <FormField
           control={form.control}
           name='username'
@@ -90,25 +92,36 @@ export default function LoginForm() {
           control={form.control}
           name='password'
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mt-6">
               <FormLabel>Password</FormLabel>
               <FormControl>
-              <div className="relative">
-                      <Input type={showPassword ? 'text' : 'password'} placeholder="Password" {...field}/>
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer">
-                          {showPassword ? (
-                            <EyeOff className="h-6 w-6" onClick={togglePasswordVisibility}/>
-                          ) : (
-                            <Eye className="h-6 w-6" onClick={togglePasswordVisibility}/>
-                          )}
-                        </div>
-                    </div>
+                <div className='relative'>
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder='Password'
+                    {...field}
+                  />
+                  <div className='absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer'>
+                    {showPassword ? (
+                      <EyeOff
+                        className='h-6 w-6'
+                        onClick={togglePasswordVisibility}
+                      />
+                    ) : (
+                      <Eye
+                        className='h-6 w-6'
+                        onClick={togglePasswordVisibility}
+                      />
+                    )}
+                  </div>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit' className='w-full'>
+        <p className={"text-sm font-medium text-destructive"}>{loginError}</p>
+        <Button type='submit' className='w-full mt-6'>
           Log in
         </Button>
       </form>
