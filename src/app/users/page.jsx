@@ -3,10 +3,10 @@ import { auth } from "@/auth/lucia";
 import { DataTable } from "@/app/clocks/data-table";
 import { defaultColumns } from "./EmployeeColumns";
 
-export const deleteUser = async (id) => {
-  console.log(id)
-  // await auth.deleteUser(id);
-};
+// export const deleteUser = async (id) => {
+//   console.log(id)
+//   // await auth.deleteUser(id);
+// };
 
 export default async function Page() {
   const rows = await sql`SELECT * FROM auth_user WHERE level < 4`;

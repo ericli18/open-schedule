@@ -1,7 +1,7 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { deleteUser } from "./page";
+// import { deleteUser } from "./page";
 
 export type Employee = {
   id: string;
@@ -26,7 +26,7 @@ export const defaultColumns = [
       const serverId = row.original.id;
       return (
         <button
-          onClick={() => deleteUser(serverId)}
+          onClick={() => console.log(serverId)}
           style={{
             display: "flex",
             justifyContent: "flex-start",
